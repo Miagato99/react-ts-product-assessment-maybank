@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import type { Product } from './types/Product';
-import ProductForm from './components/ProductForm';
-import ProductList from './components/ProductList';
+import ProductForm from './components/organisms/ProductForm';
+import ProductList from './components/organisms/ProductList';
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
