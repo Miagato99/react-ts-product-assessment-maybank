@@ -55,13 +55,13 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
 
     // Reset form
     setName('');
-    setQuantity(0);
+    setQuantity('');
     setErrors({});
   };
 
   const handleCancel = () => {
     setName('');
-    setQuantity(0);
+    setQuantity('');
     setErrors({});
     if (onCancel) onCancel();
   };
