@@ -12,43 +12,75 @@ interface ProductFormProps {
 
 const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCancel }) => {
   const [name, setName] = useState('');
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState<number | ''>('');
+  const [errors, setErrors] = useState<{ name?: string; quantity?: string }>({});
 
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.name);
       setQuantity(productToEdit.quantity);
+      setErrors({});
     }
   }, [productToEdit]);
 
+  const validateForm = (): boolean => {
+    const newErrors: { name?: string; quantity?: string } = {};
+
+    if (!name.trim()) {
+      newErrors.name = 'Product name is required';
+    }
+
+    if (quantity === '' || quantity <= 0) {
+      newErrors.quantity = 'Quantity must be greater than 0';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!name.trim()) {
-      alert('Product name is required');
-      return;
-    }
 
-    if (quantity < 0) {
-      alert('Quantity cannot be negative');
+    if (!validateForm()) {
       return;
     }
+    const finalQuantity = quantity === '' ? 0 : quantity;
 
     if (productToEdit) {
-      onSave({ ...productToEdit, name, quantity });
+      onSave({ ...productToEdit, name, quantity: finalQuantity });
     } else {
-      onSave({ name, quantity });
+      onSave({ name, quantity: finalQuantity });
     }
 
     // Reset form
     setName('');
     setQuantity(0);
+    setErrors({});
   };
 
   const handleCancel = () => {
     setName('');
     setQuantity(0);
+    setErrors({});
     if (onCancel) onCancel();
+  };
+
+  const handleNameChange = (value: string | number) => {
+    setName(value as string);
+    if (errors.name) {
+      setErrors({ ...errors, name: undefined });
+    }
+  }
+  const handleQuantityChange = (value: string | number) => {
+    if (value === '' || value === 0) {
+      setQuantity('');
+    } else {
+      setQuantity(Number(value));
+    }
+    if (errors.quantity) {
+      setErrors({ ...errors, quantity: undefined });
+    }
   };
 
   return (
@@ -63,23 +95,39 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
           </h2>
         </div>
 
-        <FormField
-          id="name"
-          label="Product Name"
-          type="text"
-          value={name}
-          onChange={(value) => setName(value as string)}
-          placeholder="Enter product name"
-        />
+        <div className='mb-6'>
+          <FormField
+            id="name"
+            label="Product Name"
+            type="text"
+            value={name}
+            onChange={handleNameChange}
+            placeholder="Enter product name"
+          />
+          {errors.name && (
+            <p className="text-red-400 text-sm mt-2 ml-1 flex items-center gap-2">
+              <span className="text-lg">⚠️</span>
+              {errors.name}
+            </p>
+          )}
+        </div>
 
-        <FormField
-          id="quantity"
-          label="Quantity"
-          type="number"
-          value={quantity}
-          onChange={(value) => setQuantity(value as number)}
-          min="0"
-        />
+        <div className='mb-6'>
+          <FormField
+            id="quantity"
+            label="Quantity"
+            type="number"
+            value={quantity}
+            onChange={handleQuantityChange}
+            min="0"
+          />
+          {errors.quantity && (
+            <p className="text-red-400 text-sm mt-2 ml-1 flex items-center gap-2">
+              <span className="text-lg">⚠️</span>
+              {errors.quantity}
+            </p>
+          )}
+        </div>
 
         <div className="flex gap-4">
           <Button
