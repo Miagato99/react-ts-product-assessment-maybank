@@ -6,28 +6,28 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
   size?: 'sm' | 'md' | 'lg';
 }
 
-const IconButton: React.FC<IconButtonProps> = ({ 
-  variant = 'increase', 
+const IconButton: React.FC<IconButtonProps> = ({
+  variant = 'increase',
   icon,
   size = 'md',
   disabled,
   className = '',
-  ...props 
+  ...props
 }) => {
   const sizeStyles = {
-    sm: 'w-8 h-8 text-lg',
-    md: 'w-12 h-12 text-xl',
-    lg: 'w-14 h-14 text-2xl',
+    sm: 'w-8 h-8 text-base',
+    md: 'w-10 h-10 text-lg',
+    lg: 'w-12 h-12 text-xl',
   };
 
   const variantStyles = {
-    increase: 'bg-gradient-to-br from-green-500 to-emerald-600 text-white hover:shadow-lg hover:shadow-green-500/50',
-    decrease: 'bg-gradient-to-br from-red-500 to-pink-600 text-white hover:shadow-lg hover:shadow-red-500/50 disabled:opacity-30 disabled:from-gray-600 disabled:to-gray-700',
+    increase: 'bg-green-600 text-white hover:bg-green-700',
+    decrease: 'bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:bg-gray-600',
   };
 
   return (
     <button
-      className={`flex items-center justify-center rounded-full disabled:cursor-not-allowed transform hover:scale-125 hover:rotate-12 active:scale-95 transition-all duration-300 shadow-xl font-bold border-2 border-white/20 ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      className={`flex items-center justify-center rounded-lg disabled:cursor-not-allowed transition-colors font-semibold ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
       disabled={disabled}
       {...props}
     >

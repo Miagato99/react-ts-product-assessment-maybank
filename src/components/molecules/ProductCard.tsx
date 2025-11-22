@@ -12,11 +12,11 @@ interface ProductCardProps {
   onQuantityChange: (id: string, newQuantity: number) => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ 
-  product, 
-  onEdit, 
-  onDelete, 
-  onQuantityChange 
+const ProductCard: React.FC<ProductCardProps> = ({
+  product,
+  onEdit,
+  onDelete,
+  onQuantityChange
 }) => {
   const handleIncrement = () => {
     onQuantityChange(product.id, product.quantity + 1);
@@ -35,13 +35,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <Card className="p-6 flex items-center justify-between group" hover>
+    <Card className="p-4 flex items-center justify-between" hover>
       <div className="flex-1">
-        <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-blue-300 transition-colors duration-300">
+        <h3 className="text-xl font-semibold text-white mb-2">
           {product.name}
         </h3>
-        <div className="flex items-center gap-3">
-          <span className="text-sm text-gray-400 font-medium">Stock Level:</span>
+        <div className="flex items-center gap-2">
+          <span className="text-sm text-gray-400">Stock:</span>
           <Badge variant={getStockVariant()}>
             {product.quantity} units
           </Badge>

@@ -84,18 +84,18 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
   };
 
   return (
-    <Card className="p-8 mb-8 group">
+    <Card className="p-6 mb-6">
       <form onSubmit={handleSubmit}>
-        <div className="flex items-center gap-3 mb-8">
-          <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
-            <span className="text-2xl">{productToEdit ? '✏️' : '➕'}</span>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center justify-center w-10 h-10 bg-blue-600 rounded-lg">
+            <span className="text-xl">{productToEdit ? '✏️' : '➕'}</span>
           </div>
-          <h2 className="text-3xl font-bold text-white">
+          <h2 className="text-2xl font-bold text-white">
             {productToEdit ? 'Edit Product' : 'Add New Product'}
           </h2>
         </div>
 
-        <div className='mb-6'>
+        <div className='mb-4'>
           <FormField
             id="name"
             label="Product Name"
@@ -105,14 +105,14 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
             placeholder="Enter product name"
           />
           {errors.name && (
-            <p className="text-red-400 text-sm mt-2 ml-1 flex items-center gap-2">
-              <span className="text-lg">⚠️</span>
+            <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+              <span>⚠️</span>
               {errors.name}
             </p>
           )}
         </div>
 
-        <div className='mb-6'>
+        <div className='mb-4'>
           <FormField
             id="quantity"
             label="Quantity"
@@ -122,8 +122,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
             min="0"
           />
           {errors.quantity && (
-            <p className="text-red-400 text-sm mt-2 ml-1 flex items-center gap-2">
-              <span className="text-lg">⚠️</span>
+            <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+              <span>⚠️</span>
               {errors.quantity}
             </p>
           )}

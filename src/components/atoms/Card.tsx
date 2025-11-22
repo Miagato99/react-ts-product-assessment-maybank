@@ -7,12 +7,12 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ children, className = '', hover = false }) => {
-  const hoverStyles = hover 
-    ? 'hover:bg-white/15 hover:scale-[1.02] hover:shadow-purple-500/30' 
-    : 'hover:bg-white/15';
+  const hoverStyles = hover
+    ? 'hover:bg-slate-700/50'
+    : '';
 
   return (
-    <div className={`backdrop-blur-xl bg-white/10 rounded-3xl shadow-2xl border border-white/20 transition-all duration-500 ${hoverStyles} ${className}`}>
+    <div className={`bg-slate-800 rounded-lg shadow-lg border border-slate-700 transition-colors ${hoverStyles} ${className}`}>
       {children}
     </div>
   );
