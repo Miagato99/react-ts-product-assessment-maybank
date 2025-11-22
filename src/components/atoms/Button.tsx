@@ -1,15 +1,17 @@
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'danger' | 'success' | 'ghost' | 'increase' | 'decrease';
   size?: 'sm' | 'md' | 'lg';
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  icon?: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   children,
+  icon,
   className = '',
   disabled,
   ...props
@@ -22,21 +24,33 @@ const Button: React.FC<ButtonProps> = ({
     lg: 'px-6 py-3 text-base',
   };
 
+  // Icon button specific sizing (circular buttons)
+  const iconSizeStyles = {
+    sm: 'w-8 h-8 text-base',
+    md: 'w-10 h-10 text-lg',
+    lg: 'w-12 h-12 text-xl',
+  };
+
   const variantStyles = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
     secondary: 'bg-slate-700 text-white hover:bg-slate-600',
     danger: 'bg-red-600 text-white hover:bg-red-700',
     success: 'bg-green-600 text-white hover:bg-green-700',
     ghost: 'bg-slate-700 text-white hover:bg-slate-600',
+    increase: 'bg-green-600 text-white hover:bg-green-700',
+    decrease: 'bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:bg-gray-600',
   };
+
+  const isIconButton = icon && !children;
+  const appliedSizeStyles = isIconButton ? iconSizeStyles[size] : sizeStyles[size];
 
   return (
     <button
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${className}`}
+      className={`${baseStyles} ${appliedSizeStyles} ${variantStyles[variant]} ${className}`}
       disabled={disabled}
       {...props}
     >
-      {children}
+      {icon || children}
     </button>
   );
 };

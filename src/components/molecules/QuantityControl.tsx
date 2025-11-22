@@ -1,5 +1,5 @@
 import React from 'react';
-import IconButton from '../atoms/IconButton';
+import Button from '../atoms/Button';
 
 interface QuantityControlProps {
   quantity: number;
@@ -14,7 +14,7 @@ const QuantityControl: React.FC<QuantityControlProps> = ({
 }) => {
   return (
     <div className="flex items-center gap-3">
-      <IconButton
+      <Button
         variant="decrease"
         icon="−"
         onClick={onDecrement}
@@ -24,7 +24,7 @@ const QuantityControl: React.FC<QuantityControlProps> = ({
         <div className="text-2xl font-semibold text-white">{quantity}</div>
         <div className="text-xs text-gray-400">units</div>
       </div>
-      <IconButton
+      <Button
         variant="increase"
         icon="+"
         onClick={onIncrement}
