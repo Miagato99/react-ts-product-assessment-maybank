@@ -5,12 +5,14 @@ interface QuantityControlProps {
   quantity: number;
   onIncrement: () => void;
   onDecrement: () => void;
+  disabled?: boolean;
 }
 
 const QuantityControl: React.FC<QuantityControlProps> = ({
   quantity,
   onIncrement,
-  onDecrement
+  onDecrement,
+  disabled = false
 }) => {
   return (
     <div className="flex items-center gap-3">
@@ -18,7 +20,7 @@ const QuantityControl: React.FC<QuantityControlProps> = ({
         variant="decrease"
         icon="−"
         onClick={onDecrement}
-        disabled={quantity === 0}
+        disabled={quantity === 0 || disabled}
       />
       <div className="w-16 text-center">
         <div className="text-2xl font-semibold text-white">{quantity}</div>
@@ -28,6 +30,7 @@ const QuantityControl: React.FC<QuantityControlProps> = ({
         variant="increase"
         icon="+"
         onClick={onIncrement}
+        disabled={disabled}
       />
     </div>
   );

@@ -10,13 +10,15 @@ interface ProductCardProps {
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
   onQuantityChange: (id: string, newQuantity: number) => void;
+  isEditing?: boolean; 
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
   product,
   onEdit,
   onDelete,
-  onQuantityChange
+  onQuantityChange,
+  isEditing = false
 }) => {
   const handleIncrement = () => {
     onQuantityChange(product.id, product.quantity + 1);
@@ -53,6 +55,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           quantity={product.quantity}
           onIncrement={handleIncrement}
           onDecrement={handleDecrement}
+          disabled={isEditing}
         />
 
         <Button

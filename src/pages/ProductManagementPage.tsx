@@ -40,6 +40,7 @@ const ProductManagementPage: React.FC = () => {
                     onEdit={editProduct}
                     onDelete={deleteProduct}
                     onQuantityChange={updateQuantity}
+                    editingProductId={editingProduct?.id}
                 />
             </div>
         </div>
