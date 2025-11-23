@@ -1,18 +1,26 @@
 import React from 'react';
-import { useProductManagement } from '../hooks/useProductManagement';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useProductContext } from '../contexts/ProductContext';
 import ProductForm from '../components/organisms/ProductForm';
-import ProductList from '../components/organisms/ProductList';
 
-const ProductManagementPage: React.FC = () => {
+const ProductMaintenancePage: React.FC = () => {
+    const navigate = useNavigate();
+    const { id } = useParams<{ id?: string }>();
     const {
         products,
-        editingProduct,
         saveProduct,
-        deleteProduct,
-        editProduct,
-        updateQuantity,
-        cancelEdit,
-    } = useProductManagement();
+    } = useProductContext();
+
+    const editingProduct = id ? products.find(p => p.id === id) : undefined;
+
+    const handleSave = (productData: any) => {
+        saveProduct(productData);
+        navigate('/products');
+    };
+
+    const handleCancel = () => {
+        navigate('/products');
+    };
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 py-8 px-4">
@@ -22,27 +30,21 @@ const ProductManagementPage: React.FC = () => {
                         <span className="text-3xl">📦</span>
                     </div>
                     <h1 className="text-4xl font-bold text-white mb-2">
-                        Product Management
+                        Product Maintenance
                     </h1>
                     <p className="text-gray-400">
-                        Manage your inventory efficiently
+                        {editingProduct ? 'Update your product information' : 'Create a new product'}
                     </p>
                 </div>
 
                 <ProductForm
                     productToEdit={editingProduct}
-                    onSave={saveProduct}
-                    onCancel={cancelEdit}
-                />
-
-                <ProductList
-                    products={products}
-                    onEdit={editProduct}
-                    onDelete={deleteProduct}
-                    onQuantityChange={updateQuantity}
+                    onSave={handleSave}
+                    onCancel={handleCancel}
                 />
             </div>
         </div>
     );
-}
-export default ProductManagementPage;
+};
+
+export default ProductMaintenancePage;

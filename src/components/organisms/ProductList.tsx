@@ -9,7 +9,6 @@ interface ProductListProps {
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
   onQuantityChange: (id: string, newQuantity: number) => void;
-  editingProductId?: string;  
 }
 
 const ProductList: React.FC<ProductListProps> = ({
@@ -17,7 +16,6 @@ const ProductList: React.FC<ProductListProps> = ({
   onEdit,
   onDelete,
   onQuantityChange,
-  editingProductId,
 }) => {
   if (products.length === 0) {
     return (
@@ -52,7 +50,6 @@ const ProductList: React.FC<ProductListProps> = ({
           onEdit={onEdit}
           onDelete={onDelete}
           onQuantityChange={onQuantityChange}
-          isEditing={editingProductId === product.id}
         />
       ))}
     </div>

@@ -12,22 +12,34 @@ interface ProductFormProps {
 
 const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCancel }) => {
   const [name, setName] = useState('');
+  const [price, setPrice] = useState<number | ''>('');
+  const [description, setDescription] = useState('');
   const [quantity, setQuantity] = useState<number | ''>('');
-  const [errors, setErrors] = useState<{ name?: string; quantity?: string }>({});
+  const [errors, setErrors] = useState<{ name?: string; price?: string; description?: string; quantity?: string }>({});
 
   useEffect(() => {
     if (productToEdit) {
       setName(productToEdit.name);
+      setPrice(productToEdit.price);
+      setDescription(productToEdit.description);
       setQuantity(productToEdit.quantity);
       setErrors({});
     }
   }, [productToEdit]);
 
   const validateForm = (): boolean => {
-    const newErrors: { name?: string; quantity?: string } = {};
+    const newErrors: { name?: string; price?: string; description?: string; quantity?: string } = {};
 
     if (!name.trim()) {
       newErrors.name = 'Product name is required';
+    }
+
+    if (price === '' || price <= 0) {
+      newErrors.price = 'Price must be greater than 0';
+    }
+
+    if (!description.trim()) {
+      newErrors.description = 'Description is required';
     }
 
     if (quantity === '' || quantity <= 0) {
@@ -46,21 +58,26 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
       return;
     }
     const finalQuantity = quantity === '' ? 0 : quantity;
+    const finalPrice = price === '' ? 0 : price;
 
     if (productToEdit) {
-      onSave({ ...productToEdit, name, quantity: finalQuantity });
+      onSave({ ...productToEdit, name, price: finalPrice, description, quantity: finalQuantity });
     } else {
-      onSave({ name, quantity: finalQuantity });
+      onSave({ name, price: finalPrice, description, quantity: finalQuantity });
     }
 
     // Reset form
     setName('');
+    setPrice('');
+    setDescription('');
     setQuantity('');
     setErrors({});
   };
 
   const handleCancel = () => {
     setName('');
+    setPrice('');
+    setDescription('');
     setQuantity('');
     setErrors({});
     if (onCancel) onCancel();
@@ -72,6 +89,25 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
       setErrors({ ...errors, name: undefined });
     }
   }
+
+  const handlePriceChange = (value: string | number) => {
+    if (value === '' || value === 0) {
+      setPrice('');
+    } else {
+      setPrice(Number(value));
+    }
+    if (errors.price) {
+      setErrors({ ...errors, price: undefined });
+    }
+  };
+
+  const handleDescriptionChange = (value: string | number) => {
+    setDescription(value as string);
+    if (errors.description) {
+      setErrors({ ...errors, description: undefined });
+    }
+  }
+
   const handleQuantityChange = (value: string | number) => {
     if (value === '' || value === 0) {
       setQuantity('');
@@ -108,6 +144,41 @@ const ProductForm: React.FC<ProductFormProps> = ({ productToEdit, onSave, onCanc
             <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
               <span>⚠️</span>
               {errors.name}
+            </p>
+          )}
+        </div>
+
+        <div className='mb-4'>
+          <FormField
+            id="price"
+            label="Price"
+            type="number"
+            value={price}
+            onChange={handlePriceChange}
+            min="0"
+            placeholder="Enter price in RM"
+          />
+          {errors.price && (
+            <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+              <span>⚠️</span>
+              {errors.price}
+            </p>
+          )}
+        </div>
+
+        <div className='mb-4'>
+          <FormField
+            id="description"
+            label="Description"
+            type="text"
+            value={description}
+            onChange={handleDescriptionChange}
+            placeholder="Enter product description"
+          />
+          {errors.description && (
+            <p className="text-red-400 text-sm mt-1 flex items-center gap-1">
+              <span>⚠️</span>
+              {errors.description}
             </p>
           )}
         </div>

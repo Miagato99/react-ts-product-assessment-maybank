@@ -10,7 +10,7 @@ interface ProductCardProps {
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
   onQuantityChange: (id: string, newQuantity: number) => void;
-  isEditing?: boolean; 
+  isEditing?: boolean;
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
@@ -42,6 +42,14 @@ const ProductCard: React.FC<ProductCardProps> = ({
         <h3 className="text-xl font-semibold text-white mb-2">
           {product.name}
         </h3>
+        <p className="text-gray-300 text-sm mb-2">
+          {product.description}
+        </p>
+        <div className="flex items-center gap-4 mb-2">
+          <span className="text-lg font-bold text-blue-400">
+            RM{product.price.toFixed(2)}
+          </span>
+        </div>
         <div className="flex items-center gap-2">
           <span className="text-sm text-gray-400">Stock:</span>
           <Badge variant={getStockVariant()}>
